@@ -1,5 +1,6 @@
+use std::fs::{self, File};
+use std::io::{BufReader, Read};
 use std::{env, process::exit};
-use std::fs;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -14,7 +15,17 @@ fn main() {
         exit(2);
     });
 
+    let mut rom_buf = BufReader::new(File::open(path).unwrap_or_else(|_e| {
+        println!("Error reading rom!");
+        exit(3);
+    }));
 
+    let mut rom: Vec<u8> = Vec::new();
+    rom_buf.read_to_end(&mut rom).unwrap_or_else(|_e| {
+        println!("Error reading rom!");
+        exit(4);
+    });
 
-
+    dbg!(&rom);
+    dbg!(rom.len());
 }
