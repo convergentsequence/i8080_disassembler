@@ -39,16 +39,6 @@ impl Display for Instruction {
 pub fn classify(buffer: &Vec<u8>, pc: &usize) -> (Instruction, usize) {
     let opcode = &opcodes::OPCODES[buffer[*pc] as usize].clone();
 
-    if opcode.size == 1 {
-        return (
-            Instruction {
-                opcode: opcode.clone(),
-                arg: 0,
-            },
-            1,
-        );
-    }
-
     let mut arg: u16 = 0;
     for i in (1..opcode.size).rev() {
         arg <<= 8;
