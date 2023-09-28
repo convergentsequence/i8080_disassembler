@@ -3,6 +3,7 @@ use std::io::{BufReader, Read};
 use std::{env, process::exit};
 
 mod opcodes;
+mod classifier;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -28,7 +29,13 @@ fn main() {
         exit(4);
     });
 
-    for opcode in opcodes::OPCODES.iter() {
-        println!("{}", opcode);
+    let mut pc = 0usize;
+    while pc < rom.len() {
+        let (inst, consumed_bytes) = classifier::classify(&rom, &pc);
+
+        println!("{:04x} {}", pc, inst);
+
+        pc += consumed_bytes;
     }
+
 }

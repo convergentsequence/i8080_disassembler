@@ -1,9 +1,10 @@
 use std::fmt::Display;
 
+#[derive(Clone)]
 pub struct Opcode {
     pub name: &'static str,
     pub start_byte: u8,
-    pub arg_count: u8,
+    pub size: u8,
 }
 
 impl Display for Opcode {
@@ -11,7 +12,7 @@ impl Display for Opcode {
         write!(
             f,
             "op: {}, sb: 0x{:02X}, ac: {}",
-            self.name, self.start_byte, self.arg_count
+            self.name, self.start_byte, self.size
         )
     }
 }
@@ -22,7 +23,7 @@ macro_rules! opcode {
         Opcode {
             name: $name,
             start_byte: $start_byte,
-            arg_count: $arg_count,
+            size: $arg_count,
         }
     };
 }
@@ -36,6 +37,7 @@ pub const OPCODES: &[Opcode] = &[
     opcode!("DCR B", 0x05, 1),
     opcode!("MVI B, D8", 0x06, 2),
     opcode!("RLC", 0x07, 1),
+    opcode!("UNKNOWN", 0x08, 1),
     opcode!("DAD B", 0x09, 1),
     opcode!("LDAX B", 0x0a, 1),
     opcode!("DCX B", 0x0b, 1),
@@ -43,6 +45,7 @@ pub const OPCODES: &[Opcode] = &[
     opcode!("DCR C", 0x0d, 1),
     opcode!("MVI C,D8", 0x0e, 2),
     opcode!("RRC", 0x0f, 1),
+    opcode!("UNKNOWN", 0x10, 1),
     opcode!("LXI D,D16", 0x11, 3),
     opcode!("STAX D", 0x12, 1),
     opcode!("INX D", 0x13, 1),
@@ -50,6 +53,7 @@ pub const OPCODES: &[Opcode] = &[
     opcode!("DCR D", 0x15, 1),
     opcode!("MVI D, D8", 0x16, 2),
     opcode!("RAL", 0x17, 1),
+    opcode!("UNKNOWN", 0x18, 1),
     opcode!("DAD D", 0x19, 1),
     opcode!("LDAX D", 0x1a, 1),
     opcode!("DCX D", 0x1b, 1),
@@ -65,6 +69,7 @@ pub const OPCODES: &[Opcode] = &[
     opcode!("DCR H", 0x25, 1),
     opcode!("MVI H,D8", 0x26, 2),
     opcode!("DAA", 0x27, 1),
+    opcode!("UNKNOWN", 0x28, 1),
     opcode!("DAD H", 0x29, 1),
     opcode!("LHLD adr", 0x2a, 3),
     opcode!("DCX H", 0x2b, 1),
@@ -80,6 +85,7 @@ pub const OPCODES: &[Opcode] = &[
     opcode!("DCR M", 0x35, 1),
     opcode!("MVI M,D8", 0x36, 2),
     opcode!("STC", 0x37, 1),
+    opcode!("UNKNOWN", 0x38, 1),
     opcode!("DAD SP", 0x39, 1),
     opcode!("LDA adr", 0x3a, 3),
     opcode!("DCX SP", 0x3b, 1),
@@ -226,6 +232,7 @@ pub const OPCODES: &[Opcode] = &[
     opcode!("RZ", 0xc8, 1),
     opcode!("RET", 0xc9, 1),
     opcode!("JZ adr", 0xca, 3),
+    opcode!("UNKNOWN", 0xcb, 1),
     opcode!("CZ adr", 0xcc, 3),
     opcode!("CALL adr", 0xcd, 3),
     opcode!("ACI D8", 0xce, 2),
@@ -239,9 +246,11 @@ pub const OPCODES: &[Opcode] = &[
     opcode!("SUI D8", 0xd6, 2),
     opcode!("RST 2", 0xd7, 1),
     opcode!("RC", 0xd8, 1),
+    opcode!("UNKNOWN", 0xd9, 1),
     opcode!("JC adr", 0xda, 3),
     opcode!("IN D8", 0xdb, 2),
     opcode!("CC adr", 0xdc, 3),
+    opcode!("UNKNOWN", 0xdd, 1),
     opcode!("SBI D8", 0xde, 2),
     opcode!("RST 3", 0xdf, 1),
     opcode!("RPO", 0xe0, 1),
@@ -257,6 +266,7 @@ pub const OPCODES: &[Opcode] = &[
     opcode!("JPE adr", 0xea, 3),
     opcode!("XCHG", 0xeb, 1),
     opcode!("CPE adr", 0xec, 3),
+    opcode!("UNKNOWN", 0xed, 1),
     opcode!("XRI D8", 0xee, 2),
     opcode!("RST 5", 0xef, 1),
     opcode!("RP", 0xf0, 1),
@@ -272,6 +282,7 @@ pub const OPCODES: &[Opcode] = &[
     opcode!("JM adr", 0xfa, 3),
     opcode!("EI", 0xfb, 1),
     opcode!("CM adr", 0xfc, 3),
+    opcode!("UNKNOWN", 0xfd, 1),
     opcode!("CPI D8", 0xfe, 2),
     opcode!("RST 7", 0xff, 1),
 ];
