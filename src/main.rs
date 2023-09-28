@@ -2,6 +2,8 @@ use std::fs::{self, File};
 use std::io::{BufReader, Read};
 use std::{env, process::exit};
 
+mod opcodes;
+
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() < 2 {
@@ -26,6 +28,7 @@ fn main() {
         exit(4);
     });
 
-    dbg!(&rom);
-    dbg!(rom.len());
+    for opcode in opcodes::OPCODES.iter() {
+        println!("{}", opcode);
+    }
 }
