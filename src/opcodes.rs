@@ -35,7 +35,7 @@ pub const OPCODES: &[Opcode] = &[
     opcode!("INX B", 0x03, 1),
     opcode!("INR B", 0x04, 1),
     opcode!("DCR B", 0x05, 1),
-    opcode!("MVI B, D8", 0x06, 2),
+    opcode!("MVI B,D8", 0x06, 2),
     opcode!("RLC", 0x07, 1),
     opcode!("UNKNOWN", 0x08, 1),
     opcode!("DAD B", 0x09, 1),
